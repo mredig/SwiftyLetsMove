@@ -130,16 +130,16 @@ public class LetsMove: NSObject {
 			case devEntry = "dev-entry"
 			case mountPoint = "mount-point"
 		}
-		var contentHint: String?
-		var devEntry: String?
+		var contentHint: String
+		var devEntry: String
 		var mountPoint: String?
 
 		init(from decoder: Decoder) throws {
 			let container = try decoder.container(keyedBy: CodingKeys.self)
 
-			contentHint = try! container.decodeIfPresent(String.self, forKey: .contentHint)
-			devEntry = try! container.decodeIfPresent(String.self, forKey: .devEntry)
-			mountPoint = try! container.decodeIfPresent(String.self, forKey: .mountPoint)
+			contentHint = try container.decodeIfPresent(String.self, forKey: .contentHint) ?? ""
+			devEntry = try container.decodeIfPresent(String.self, forKey: .devEntry) ?? ""
+			mountPoint = try container.decodeIfPresent(String.self, forKey: .mountPoint)
 		}
 	}
 	

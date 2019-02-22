@@ -32,10 +32,10 @@ class SwiftyLetsMoveTests: XCTestCase {
 //    }
 	
 	func testNestedApplicationDetection() {
-		let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app" as NSString
-		let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app" as NSString
-		let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app" as NSString
-		let unnestedPathApplications = "/Applications/Application1.app" as NSString
+		let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app"
+		let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app"
+		let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app" 
+		let unnestedPathApplications = "/Applications/Application1.app"
 		
 		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathDownloads))
 		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathApplications))

@@ -44,11 +44,12 @@ public class LetsMove: NSObject {
 		}
 		
 		let bundlePath = letsMoveBundle.bundlePath
-		let isNestedApp = isApplicationNested(atPath: bundlePath as NSString)
+		let isNestedApp = isApplicationNested(atPath: bundlePath)
 		
 	}
 	
-	func isApplicationNested(atPath bundlePath: NSString) -> Bool {
+	func isApplicationNested(atPath bundlePath: String) -> Bool {
+		let bundlePath = bundlePath as NSString
 		let containingPath = bundlePath.deletingLastPathComponent as NSString
 		let components = containingPath.pathComponents as [NSString]
 		for component in components {

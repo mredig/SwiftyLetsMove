@@ -26,7 +26,7 @@ public struct SystemUtility {
          // stdErr = ""
 
     */
-	public static func shell(_ args: [String], _ launchPath: String = "/usr/bin/env") -> (returnCode: Int32, stdOut: String, stdError: String) {
+	@discardableResult public static func shell(_ args: [String], _ launchPath: String = "/usr/bin/env") -> (returnCode: Int32, stdOut: String, stdError: String) {
         let task = Process()
         task.launchPath = launchPath
         task.arguments = args
@@ -63,7 +63,7 @@ public struct SystemUtility {
          // stdErr = [""]
      
      */
-    public static func shellArrayOut(_ args: [String], _ launchPath: String = "/usr/bin/env") -> (returnCode: Int32, stdOut: [String], stdError: [String]) {
+    @discardableResult public static func shellArrayOut(_ args: [String], _ launchPath: String = "/usr/bin/env") -> (returnCode: Int32, stdOut: [String], stdError: [String]) {
         let (rCode, stdOut, stdErr) = shell(args, launchPath)
         let output = stdOut.split(separator: "\n").map{String($0)}
         let error = stdErr.split(separator: "\n").map{String($0)}

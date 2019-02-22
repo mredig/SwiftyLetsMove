@@ -12,6 +12,7 @@
 		3354619D221F9EB500A5A498 /* SwiftyLetsMoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */; };
 		3354619F221F9EB500A5A498 /* SwiftyLetsMove.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33546189221F954600A5A498 /* SwiftyLetsMove.framework */; };
 		335461BF221FC46D00A5A498 /* SystemUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335461BE221FC46D00A5A498 /* SystemUtility.swift */; };
+		335461C22220AF9800A5A498 /* Fake App Image.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 335461C12220AF9800A5A498 /* Fake App Image.dmg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyLetsMoveTests.swift; sourceTree = "<group>"; };
 		3354619E221F9EB500A5A498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		335461BE221FC46D00A5A498 /* SystemUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtility.swift; sourceTree = "<group>"; };
+		335461C12220AF9800A5A498 /* Fake App Image.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fake App Image.dmg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		3354619B221F9EB500A5A498 /* SwiftyLetsMoveTests */ = {
 			isa = PBXGroup;
 			children = (
+				335461C12220AF9800A5A498 /* Fake App Image.dmg */,
 				3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */,
 				3354619E221F9EB500A5A498 /* Info.plist */,
 			);
@@ -131,6 +134,7 @@
 				33546196221F9EB500A5A498 /* Sources */,
 				33546197221F9EB500A5A498 /* Frameworks */,
 				33546198221F9EB500A5A498 /* Resources */,
+				335461C02220ADD900A5A498 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -192,10 +196,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				335461C22220AF9800A5A498 /* Fake App Image.dmg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		335461C02220ADD900A5A498 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#open \"./SwiftyLetsMoveTests/Fake App Image.dmg\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		33546185221F954600A5A498 /* Sources */ = {

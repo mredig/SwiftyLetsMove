@@ -15,26 +15,17 @@ class SwiftyLetsMoveTests: XCTestCase {
 	let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app"
 	let unnestedPathApplications = "/Applications/Application1.app"
 
+	var testUnitBundle: Bundle?
+
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+		testUnitBundle = Bundle.init(for: type(of: self))
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
-//
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
 	
 	func testNestedApplicationDetection() {
 		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathDownloads))
@@ -50,9 +41,28 @@ class SwiftyLetsMoveTests: XCTestCase {
 		XCTAssertFalse(LetsMove.shared.isInApplicationsFolder(atPath: nestedPathDownloads))
 	}
 	
-	func testDiskImageMountInfo() { // might only pass if a disk image is mounted
-		let info = LetsMove.shared.getDiskImageInfo()
-		XCTAssertNotNil(info)
-//		XCTAssertNil(info, "info: \(info!)") //uncomment this if troubleshooting to get output of data (will cause to fail, but will give feedback)
+	func testDiskImageMountInfo() {
+		guard let dmgPath = testUnitBundle?.path(forResource: "Fake App Image", ofType: "dmg") else {XCTFail("couldn't find dmg"); return}
+		guard SystemUtility.shell(["open", dmgPath]).returnCode == 0 else {XCTFail("couldn't mount dmg"); return}
+
+		let fm = FileManager.default
+		while !fm.fileExists(atPath: "/Volumes/TheApp") { //wait for disk image to fully mount
+			sleep(1)
+		}
+		guard let info = LetsMove.shared.getDiskImageInfo() else {XCTFail("couldn't get dmg info"); return}
+		SystemUtility.shell(["hdiutil", "unmount", "/Volumes/TheApp/"]) //unmount image as its no longer needed.
+		
+		var foundImage = false
+		for image in info.images {
+			if image.imagePath.contains("Fake App Image.dmg") {
+				foundImage = true
+				for entity in image.systemEntities {
+					guard let mountPoint = entity.mountPoint else { continue }
+					XCTAssertTrue(mountPoint.contains("/Volumes/TheApp"))
+				}
+			}
+		}
+		XCTAssertTrue(foundImage)
+//		XCTAssert( 1 == 0, "info: \(info!)") //uncomment this if troubleshooting to get output of data (will cause to fail, but will give feedback)
 	}
 }

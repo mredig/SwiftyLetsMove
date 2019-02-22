@@ -85,9 +85,24 @@ public class LetsMove: NSObject {
 	func isOnDiskImage(with bundlepath: String) -> Bool {
 		let containingPath = (bundlepath as NSString).deletingLastPathComponent
 		
-		var diskImageMountPaths = [String]()
+		var diskImageMountPaths = Set<String>()
 		
-		let diskImageInfo = getDiskImageInfo()
+		guard let diskImageInfo = getDiskImageInfo() else { return false }
+		for image in diskImageInfo.images {
+			if image.imagePath.lowercased().contains(".dmg") {
+				for entity in image.systemEntities {
+					guard let mountPoint = entity.mountPoint else { continue }
+					diskImageMountPaths.insert(mountPoint)
+				}
+			}
+		}
+		
+		for mountPoint in diskImageMountPaths {
+			if containingPath.contains(mountPoint) {
+				return true
+			}
+		}
+		
 		return false
 	}
 	

@@ -49,5 +49,11 @@ class SwiftyLetsMoveTests: XCTestCase {
 		XCTAssertFalse(LetsMove.shared.isInApplicationsFolder(atPath: unnestedPathDownloads))
 		XCTAssertFalse(LetsMove.shared.isInApplicationsFolder(atPath: nestedPathDownloads))
 	}
+	
+	func testDiskImageMountInfo() { // might only pass if a disk image is mounted
+		let info = LetsMove.shared.getDiskImageInfo()
+		XCTAssertNotNil(info)
+//		XCTAssertNil(info, "info: \(info!)") //uncomment this if troubleshooting to get output of data
+	}
 
 }

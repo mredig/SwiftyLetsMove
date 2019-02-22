@@ -13,6 +13,7 @@ public class LetsMove: NSObject {
 	
 	
 	private let alertSuppressKey = "moveToApplicationsFolderAlertSuppress"
+	private let fileManager = FileManager.default
 	var moveIsInProgress = false
 	var letsMoveBundle: Bundle {
 		return Bundle(for: type(of: self))
@@ -44,11 +45,15 @@ public class LetsMove: NSObject {
 		}
 		
 		let bundlePath = letsMoveBundle.bundlePath
+		//FIXME: change to guard statement if unused elsewhere
 		let isNestedApp = isApplicationNested(atPath: bundlePath)
 		
-		if isInApplicationsFolder(atPath: bundlePath) {
-//			<#code#>
-		}
+		guard !isInApplicationsFolder(atPath: bundlePath) else { return }
+		
+		moveIsInProgress = true
+		
+		// are we on a disk image?
+//		let diskImageDevice =
 	}
 	
 	func isApplicationNested(atPath bundlePath: String) -> Bool {
@@ -76,5 +81,67 @@ public class LetsMove: NSObject {
 		if bundlePath.pathComponents.contains("Applications") { return true }
 		return false
 	}
+	
+	func isOnDiskImage(with bundlepath: String) -> Bool {
+		let containingPath = (bundlepath as NSString).deletingLastPathComponent
+		
+		var diskImageMountPaths = [String]()
+		
+		let diskImageInfo = getDiskImageInfo()
+		return false
+	}
+	
+	func getDiskImageInfo() -> DiskImageInfo? {
+		let stuff = SystemUtility.shell(["hdiutil", "info", "-plist"])
+		guard let plistData = stuff.stdOut.data(using: .utf8) else { return nil }
+		let decoder = PropertyListDecoder()
+		return try? decoder.decode(DiskImageInfo.self, from: plistData)
+	}
+
+	struct DiskImageInfo: Decodable {
+		var images: [MountedDisk]
+	}
+	
+	struct MountedDisk: Decodable {
+		enum CodingKeys: String, CodingKey {
+			case imagePath = "image-path"
+			case imageType = "image-type"
+			case writeable
+			case systemEntities = "system-entities"
+		}
+		var imagePath: String
+		var imageType: String
+		var writeable: Bool
+		var systemEntities: [SystemEntities]
+		
+		init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+			
+			imagePath = try container.decode(String.self, forKey: .imagePath)
+			imageType = try container.decode(String.self, forKey: .imageType)
+			writeable = try container.decode(Bool.self, forKey: .writeable)
+			systemEntities = try container.decodeIfPresent([SystemEntities].self, forKey: .systemEntities) ?? [SystemEntities]()
+		}
+	}
+	
+	struct SystemEntities: Decodable {
+		enum CodingKeys: String, CodingKey {
+			case contentHint = "content-hint"
+			case devEntry = "dev-entry"
+			case mountPoint = "mount-point"
+		}
+		var contentHint: String?
+		var devEntry: String?
+		var mountPoint: String?
+
+		init(from decoder: Decoder) throws {
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+
+			contentHint = try! container.decodeIfPresent(String.self, forKey: .contentHint)
+			devEntry = try! container.decodeIfPresent(String.self, forKey: .devEntry)
+			mountPoint = try! container.decodeIfPresent(String.self, forKey: .mountPoint)
+		}
+	}
+	
 	
 }

@@ -11,6 +11,7 @@
 		33546195221F955900A5A498 /* SwiftyLetsMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33546194221F955900A5A498 /* SwiftyLetsMove.swift */; };
 		3354619D221F9EB500A5A498 /* SwiftyLetsMoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */; };
 		3354619F221F9EB500A5A498 /* SwiftyLetsMove.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33546189221F954600A5A498 /* SwiftyLetsMove.framework */; };
+		335461BF221FC46D00A5A498 /* SystemUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335461BE221FC46D00A5A498 /* SystemUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		3354619A221F9EB500A5A498 /* SwiftyLetsMoveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyLetsMoveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyLetsMoveTests.swift; sourceTree = "<group>"; };
 		3354619E221F9EB500A5A498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335461BE221FC46D00A5A498 /* SystemUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				3354618C221F954600A5A498 /* SwiftyLetsMove.h */,
 				3354618D221F954600A5A498 /* Info.plist */,
 				33546194221F955900A5A498 /* SwiftyLetsMove.swift */,
+				335461BE221FC46D00A5A498 /* SystemUtility.swift */,
 			);
 			path = SwiftyLetsMove;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33546195221F955900A5A498 /* SwiftyLetsMove.swift in Sources */,
+				335461BF221FC46D00A5A498 /* SystemUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

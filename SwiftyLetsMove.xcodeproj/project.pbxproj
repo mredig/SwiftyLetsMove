@@ -8,12 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		3354618E221F954600A5A498 /* SwiftyLetsMove.h in Headers */ = {isa = PBXBuildFile; fileRef = 3354618C221F954600A5A498 /* SwiftyLetsMove.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33546195221F955900A5A498 /* SwiftyLetsMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33546194221F955900A5A498 /* SwiftyLetsMove.swift */; };
+		3354619D221F9EB500A5A498 /* SwiftyLetsMoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */; };
+		3354619F221F9EB500A5A498 /* SwiftyLetsMove.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33546189221F954600A5A498 /* SwiftyLetsMove.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		335461A0221F9EB500A5A498 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33546180221F954600A5A498 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33546188221F954600A5A498;
+			remoteInfo = SwiftyLetsMove;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		33546189221F954600A5A498 /* SwiftyLetsMove.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyLetsMove.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3354618C221F954600A5A498 /* SwiftyLetsMove.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyLetsMove.h; sourceTree = "<group>"; };
 		3354618D221F954600A5A498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33546194221F955900A5A498 /* SwiftyLetsMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyLetsMove.swift; sourceTree = "<group>"; };
+		3354619A221F9EB500A5A498 /* SwiftyLetsMoveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyLetsMoveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyLetsMoveTests.swift; sourceTree = "<group>"; };
+		3354619E221F9EB500A5A498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +41,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		33546197221F9EB500A5A498 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3354619F221F9EB500A5A498 /* SwiftyLetsMove.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -31,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				3354618B221F954600A5A498 /* SwiftyLetsMove */,
+				3354619B221F9EB500A5A498 /* SwiftyLetsMoveTests */,
 				3354618A221F954600A5A498 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				33546189221F954600A5A498 /* SwiftyLetsMove.framework */,
+				3354619A221F9EB500A5A498 /* SwiftyLetsMoveTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,8 +75,18 @@
 			children = (
 				3354618C221F954600A5A498 /* SwiftyLetsMove.h */,
 				3354618D221F954600A5A498 /* Info.plist */,
+				33546194221F955900A5A498 /* SwiftyLetsMove.swift */,
 			);
 			path = SwiftyLetsMove;
+			sourceTree = "<group>";
+		};
+		3354619B221F9EB500A5A498 /* SwiftyLetsMoveTests */ = {
+			isa = PBXGroup;
+			children = (
+				3354619C221F9EB500A5A498 /* SwiftyLetsMoveTests.swift */,
+				3354619E221F9EB500A5A498 /* Info.plist */,
+			);
+			path = SwiftyLetsMoveTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -84,16 +121,39 @@
 			productReference = 33546189221F954600A5A498 /* SwiftyLetsMove.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		33546199221F9EB500A5A498 /* SwiftyLetsMoveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335461A2221F9EB500A5A498 /* Build configuration list for PBXNativeTarget "SwiftyLetsMoveTests" */;
+			buildPhases = (
+				33546196221F9EB500A5A498 /* Sources */,
+				33546197221F9EB500A5A498 /* Frameworks */,
+				33546198221F9EB500A5A498 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				335461A1221F9EB500A5A498 /* PBXTargetDependency */,
+			);
+			name = SwiftyLetsMoveTests;
+			productName = SwiftyLetsMoveTests;
+			productReference = 3354619A221F9EB500A5A498 /* SwiftyLetsMoveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		33546180221F954600A5A498 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Michael Redig";
 				TargetAttributes = {
 					33546188221F954600A5A498 = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
+					};
+					33546199221F9EB500A5A498 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
@@ -111,12 +171,20 @@
 			projectRoot = "";
 			targets = (
 				33546188221F954600A5A498 /* SwiftyLetsMove */,
+				33546199221F9EB500A5A498 /* SwiftyLetsMoveTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		33546187221F954600A5A498 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33546198221F9EB500A5A498 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -130,10 +198,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33546195221F955900A5A498 /* SwiftyLetsMove.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33546196221F9EB500A5A498 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3354619D221F9EB500A5A498 /* SwiftyLetsMoveTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		335461A1221F9EB500A5A498 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 33546188221F954600A5A498 /* SwiftyLetsMove */;
+			targetProxy = 335461A0221F9EB500A5A498 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3354618F221F954600A5A498 /* Debug */ = {
@@ -260,6 +345,7 @@
 		33546192221F954600A5A498 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -279,6 +365,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.SwiftyLetsMove;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -286,6 +373,7 @@
 		33546193221F954600A5A498 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -309,6 +397,42 @@
 			};
 			name = Release;
 		};
+		335461A3221F9EB500A5A498 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
+				INFOPLIST_FILE = SwiftyLetsMoveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.SwiftyLetsMoveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		335461A4221F9EB500A5A498 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L5UZAT7KA9;
+				INFOPLIST_FILE = SwiftyLetsMoveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.redeggproductions.SwiftyLetsMoveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -326,6 +450,15 @@
 			buildConfigurations = (
 				33546192221F954600A5A498 /* Debug */,
 				33546193221F954600A5A498 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335461A2221F9EB500A5A498 /* Build configuration list for PBXNativeTarget "SwiftyLetsMoveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335461A3221F9EB500A5A498 /* Debug */,
+				335461A4221F9EB500A5A498 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

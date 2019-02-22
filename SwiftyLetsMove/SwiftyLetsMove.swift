@@ -46,6 +46,9 @@ public class LetsMove: NSObject {
 		let bundlePath = letsMoveBundle.bundlePath
 		let isNestedApp = isApplicationNested(atPath: bundlePath)
 		
+		if isInApplicationsFolder(atPath: bundlePath) {
+//			<#code#>
+		}
 	}
 	
 	func isApplicationNested(atPath bundlePath: String) -> Bool {
@@ -60,5 +63,18 @@ public class LetsMove: NSObject {
 		return false
 	}
 	
+	func isInApplicationsFolder(atPath bundlePath: String) -> Bool {
+		let bundlePath = bundlePath as NSString
+		
+		//check normal app directories
+		let appDirs = NSSearchPathForDirectoriesInDomains(.applicationDirectory, .allDomainsMask, true)
+		for appDir in appDirs {
+			if bundlePath.hasPrefix(appDir) { return true }
+		}
+		
+		// check for non standard application directories (perhaps another drive)
+		if bundlePath.pathComponents.contains("Applications") { return true }
+		return false
+	}
 	
 }

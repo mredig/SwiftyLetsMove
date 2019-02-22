@@ -10,6 +10,11 @@ import XCTest
 @testable import SwiftyLetsMove
 
 class SwiftyLetsMoveTests: XCTestCase {
+	let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app"
+	let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app"
+	let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app"
+	let unnestedPathApplications = "/Applications/Application1.app"
+
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -32,16 +37,17 @@ class SwiftyLetsMoveTests: XCTestCase {
 //    }
 	
 	func testNestedApplicationDetection() {
-		let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app"
-		let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app"
-		let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app" 
-		let unnestedPathApplications = "/Applications/Application1.app"
-		
 		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathDownloads))
 		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathApplications))
 		XCTAssertFalse(LetsMove.shared.isApplicationNested(atPath: unnestedPathDownloads))
 		XCTAssertFalse(LetsMove.shared.isApplicationNested(atPath: unnestedPathApplications))
-
+	}
+	
+	func testApplicationDirectoryDetection() {
+		XCTAssertTrue(LetsMove.shared.isInApplicationsFolder(atPath: nestedPathApplications))
+		XCTAssertTrue(LetsMove.shared.isInApplicationsFolder(atPath: unnestedPathApplications))
+		XCTAssertFalse(LetsMove.shared.isInApplicationsFolder(atPath: unnestedPathDownloads))
+		XCTAssertFalse(LetsMove.shared.isInApplicationsFolder(atPath: nestedPathDownloads))
 	}
 
 }

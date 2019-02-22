@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import SwiftyLetsMove
+@testable import SwiftyLetsMove
 
 class SwiftyLetsMoveTests: XCTestCase {
 
@@ -32,13 +32,16 @@ class SwiftyLetsMoveTests: XCTestCase {
 //    }
 	
 	func testNestedApplicationDetection() {
-		let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app"
-		let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app"
-		let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app"
-		let unnestedPathApplications = "/Applications/Application1.app"
+		let nestedPathDownloads = "/Users/theUser/Downloads/Application1.app/Contents/Resources/Application2.app" as NSString
+		let nestedPathApplications = "/Applications/Application1.app/Contents/Resources/Application2.app" as NSString
+		let unnestedPathDownloads = "/Users/theUser/Downloads/Application1.app" as NSString
+		let unnestedPathApplications = "/Applications/Application1.app" as NSString
 		
-//		XCTAssertTrue(SwiftyLetsMov)
-		SwiftyLets
+		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathDownloads))
+		XCTAssertTrue(LetsMove.shared.isApplicationNested(atPath: nestedPathApplications))
+		XCTAssertFalse(LetsMove.shared.isApplicationNested(atPath: unnestedPathDownloads))
+		XCTAssertFalse(LetsMove.shared.isApplicationNested(atPath: unnestedPathApplications))
+
 	}
 
 }

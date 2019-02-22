@@ -42,15 +42,9 @@ class SwiftyLetsMoveTests: XCTestCase {
 	}
 	
 	func testDiskImageMountInfo() {
-		guard let dmgPath = testUnitBundle?.path(forResource: "Fake App Image", ofType: "dmg") else {XCTFail("couldn't find dmg"); return}
-		guard SystemUtility.shell(["open", dmgPath]).returnCode == 0 else {XCTFail("couldn't mount dmg"); return}
-
-		let fm = FileManager.default
-		while !fm.fileExists(atPath: "/Volumes/TheApp") { //wait for disk image to fully mount
-			sleep(1)
-		}
+		mountDiskImage()
 		guard let info = LetsMove.shared.getDiskImageInfo() else {XCTFail("couldn't get dmg info"); return}
-		SystemUtility.shell(["hdiutil", "unmount", "/Volumes/TheApp/"]) //unmount image as its no longer needed.
+		unmountDiskImage()
 		
 		var foundImage = false
 		for image in info.images {
@@ -65,4 +59,38 @@ class SwiftyLetsMoveTests: XCTestCase {
 		XCTAssertTrue(foundImage)
 //		XCTAssert( 1 == 0, "info: \(info!)") //uncomment this if troubleshooting to get output of data (will cause to fail, but will give feedback)
 	}
+	
+	func testDiskImageMountDetection() {
+		let onDiskImage = "/Volumes/TheApp/App Name.app"
+		let notOnDiskImage = "/Users/theUser/Downloads/unzippedFolder/App Name.app"
+		
+		mountDiskImage()
+		
+		XCTAssertTrue(LetsMove.shared.isOnDiskImage(with: onDiskImage))
+		XCTAssertFalse(LetsMove.shared.isOnDiskImage(with: notOnDiskImage))
+		
+		unmountDiskImage()
+	}
+	
+	
+	
+	
+	
+	
+	//MARK:- Support stuff
+	
+	func mountDiskImage() {
+		guard let dmgPath = testUnitBundle?.path(forResource: "Fake App Image", ofType: "dmg") else {XCTFail("couldn't find dmg"); return}
+		guard SystemUtility.shell(["open", dmgPath]).returnCode == 0 else {XCTFail("couldn't mount dmg"); return}
+		
+		let fm = FileManager.default
+		while !fm.fileExists(atPath: "/Volumes/TheApp") { //wait for disk image to fully mount
+			sleep(1)
+		}
+	}
+	
+	func unmountDiskImage() {
+		SystemUtility.shell(["hdiutil", "unmount", "/Volumes/TheApp/"]) //unmount image as its no longer needed.
+	}
+
 }

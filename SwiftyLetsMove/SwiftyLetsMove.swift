@@ -32,7 +32,6 @@ public class LetsMove: NSObject {
 	
 	Call from NSApplication's delegate method `applicationWillFinishLaunching:` method. */
 	public func moveToApplicationsFolderIfNecesary() {
-		print("time to move!")
 		if !Thread.isMainThread { //confirm running on main thread
 			DispatchQueue.main.async {
 				self.moveToApplicationsFolderIfNecesary()
@@ -64,18 +63,17 @@ public class LetsMove: NSObject {
 			failInstall(with: "Can't write to /Applications or ~/Applications")
 			return
 		} //couldn't get an install directory
-		print("install dir: \(installDir)")
 		
 		let bundleName = (bundlePath as NSString).lastPathComponent
 		let destinationPath = (installDir as NSString).appendingPathComponent(bundleName)
 		
 		//check if we can overwrite any existing copy of the app in the destination directory
-		guard fileManager.isWritableFile(atPath: destinationPath) else {
+		if fileManager.fileExists(atPath: destinationPath) && !fileManager.isWritableFile(atPath: destinationPath) {
 			failInstall(with: "Can't overwrite '\(destinationPath)'")
 			return
 		}
 		
-		let response = OMGAlrt.showAlert(withTitle: "Move to Applications Folder?", andMessage: "I can move myself to the Applications folder if you'd like. This will keep your Downloads folder uncluttered.", andConfirmButtonText: "Move to Applications Folder", withCancelButtonText: "Don't Move", withAlertStyle: .informational) { (alert) in
+		let response = OMGAlrt.showAlert(withTitle: "Move to \(installDir)?", andMessage: "I can move myself to \(installDir) if you'd like. This will keep your Downloads folder uncluttered.", andConfirmButtonText: "Move to Applications Folder", withCancelButtonText: "Don't Move", withAlertStyle: .informational) { (alert) in
 			
 			if alert.suppressionButton?.state == .on {
 				UserDefaults.standard.set(true, forKey: self.alertSuppressKey)
@@ -152,9 +150,9 @@ public class LetsMove: NSObject {
 		let quotedDestPath = shellQuotedString(path)
 		let quarantineCommand = "/usr/bin/xattr -d -r com.apple.quarantine \(quotedDestPath)"
 		
-		let script = "(while /bin/kill -0 \(pid) >&/dev/null; do /bin/sleep 0.1; done; \(quarantineCommand); /usr/bin/open \(quotedDestPath) &"
+		let script = "(while /bin/kill -0 \(pid) >&/dev/null; do /bin/sleep 0.1; done; \(quarantineCommand); /usr/bin/open \(quotedDestPath)) &"
 		
-		SystemUtility.shell(["-c", script], "/bin/sh") //might have to step aside from systemutility to let run in bg?
+		Process.launchedProcess(launchPath: "/bin/sh", arguments: ["-c", script]) //seemingly lets you exit the main thread while continuing this script
 	}
 	
 	func shellQuotedString(_ string: String) -> String {

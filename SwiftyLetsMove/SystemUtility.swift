@@ -26,7 +26,7 @@ public struct SystemUtility {
          // stdErr = ""
 
     */
-	@discardableResult public static func shell(_ args: [String], _ launchPath: String = "/usr/bin/env") -> (returnCode: Int32, stdOut: String, stdError: String) {
+	@discardableResult public static func shell(_ args: [String], _ launchPath: String = "/usr/bin/env", _ waitUntilFinished: Bool = true) -> (returnCode: Int32, stdOut: String, stdError: String) {
         let task = Process()
         task.launchPath = launchPath
         task.arguments = args
@@ -36,7 +36,9 @@ public struct SystemUtility {
         task.standardOutput = pipeOut
         task.standardError = pipeError
         task.launch()
-        task.waitUntilExit()
+		if waitUntilFinished {
+			task.waitUntilExit()
+		}
 
         let dataOut = pipeOut.fileHandleForReading.readDataToEndOfFile()
         let stdOut = String(data: dataOut, encoding: .utf8) ?? ""

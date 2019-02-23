@@ -1,6 +1,5 @@
 //
 //  OMGAlrt.swift
-//  eggBW
 //
 //  Created by Michael Redig on 12/9/18.
 //  Copyright © 2018 Michael Redig. All rights reserved.

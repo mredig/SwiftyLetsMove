@@ -9,22 +9,17 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>SwiftyLetsMoveTests.xcscheme_^#shared#^_</key>
+		<key>SwiftyLetsMoveTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>TestApp.xcscheme_^#shared#^_</key>
+		<key>TestApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
-		</dict>
-		<key>TheApp.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -35,6 +30,11 @@
 			<true/>
 		</dict>
 		<key>33546199221F9EB500A5A498</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>335461C82220D7A200A5A498</key>
 		<dict>
 			<key>primary</key>
 			<true/>

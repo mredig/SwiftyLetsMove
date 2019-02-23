@@ -69,6 +69,7 @@
 		335461D02220D7A600A5A498 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		335461D22220D7A600A5A498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		335461D32220D7A600A5A498 /* TestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestApp.entitlements; sourceTree = "<group>"; };
+		335461DC2220E15400A5A498 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 		3354617F221F954500A5A498 = {
 			isa = PBXGroup;
 			children = (
+				335461DC2220E15400A5A498 /* README.md */,
 				3354618B221F954600A5A498 /* SwiftyLetsMove */,
 				3354619B221F9EB500A5A498 /* SwiftyLetsMoveTests */,
 				335461CA2220D7A300A5A498 /* TestApp */,

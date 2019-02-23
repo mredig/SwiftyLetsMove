@@ -8,7 +8,7 @@ It should be compatible with Carthage
 
 	github "mredig/SwiftyLetsMove"
 	
-Then run `carthage update` and put `LetsMove.shared.moveToApplicationsFolderIfNecesary()` in your `applicationDidFinishLaunching` in your AppDelegate.
+Then run `carthage update` and put `LetsMove.shared.moveToApplicationsFolderIfNecesary()` in your `applicationDidFinishLaunching` in your AppDelegate. **Note that it is NOT compatibile with App Sandboxing!**
 
 Unit tests are not comprehensive, but there's a decent start to them.
 

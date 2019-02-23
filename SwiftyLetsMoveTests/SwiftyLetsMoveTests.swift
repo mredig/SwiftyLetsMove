@@ -74,7 +74,13 @@ class SwiftyLetsMoveTests: XCTestCase {
 	
 	
 	
-	
+	func testRunningAppDetection() {
+		let finderPath = "/System/Library/CoreServices/Finder.app/"
+		let definitelyNotRunningPath = "/Applications/asdgkjhasdkfjhaskdjghaksdflaksdgas.app/"
+		
+		XCTAssertTrue(LetsMove.shared.isApplicationRunning(atPath: finderPath))
+		XCTAssertFalse(LetsMove.shared.isApplicationRunning(atPath: definitelyNotRunningPath))
+	}
 	
 	
 	//MARK:- Support stuff

@@ -32,6 +32,7 @@ public class LetsMove: NSObject {
 	
 	Call from NSApplication's delegate method `applicationWillFinishLaunching:` method. */
 	public func moveToApplicationsFolderIfNecesary() {
+		print("time to move!")
 		if !Thread.isMainThread { //confirm running on main thread
 			DispatchQueue.main.async {
 				self.moveToApplicationsFolderIfNecesary()
@@ -41,19 +42,177 @@ public class LetsMove: NSObject {
 		
 		//skip if user suppressed the alert previously
 		if UserDefaults.standard.bool(forKey: alertSuppressKey) {
+			print("user suppressed lets move")
 			return
 		}
 		
-		let bundlePath = letsMoveBundle.bundlePath
-		//FIXME: change to guard statement if unused elsewhere
-		let isNestedApp = isApplicationNested(atPath: bundlePath)
+		let bundlePath = Bundle.main.bundlePath
+		guard !isApplicationNested(atPath: bundlePath) else {
+			failInstall(with: "This application is nested within another. These typically don't get installed to an Apps folder.")
+			return
+		}
 		
 		guard !isInApplicationsFolder(atPath: bundlePath) else { return }
 		
 		moveIsInProgress = true
 		
 		// are we on a disk image?
-//		let diskImageDevice =
+		let onDiskImage = isOnDiskImage(with: bundlePath)
+		
+		//get preferred intall directory
+		guard let installDir = getPrefferedInstallDirectory() else {
+			failInstall(with: "Can't write to /Applications or ~/Applications")
+			return
+		} //couldn't get an install directory
+		print("install dir: \(installDir)")
+		
+		let bundleName = (bundlePath as NSString).lastPathComponent
+		let destinationPath = (installDir as NSString).appendingPathComponent(bundleName)
+		
+		//check if we can overwrite any existing copy of the app in the destination directory
+		guard fileManager.isWritableFile(atPath: destinationPath) else {
+			failInstall(with: "Can't overwrite '\(destinationPath)'")
+			return
+		}
+		
+		let response = OMGAlrt.showAlert(withTitle: "Move to Applications Folder?", andMessage: "I can move myself to the Applications folder if you'd like. This will keep your Downloads folder uncluttered.", andConfirmButtonText: "Move to Applications Folder", withCancelButtonText: "Don't Move", withAlertStyle: .informational) { (alert) in
+			
+			if alert.suppressionButton?.state == .on {
+				UserDefaults.standard.set(true, forKey: self.alertSuppressKey)
+			}
+		}
+		
+		if response == .alertFirstButtonReturn { //proceed with install
+			//move
+			
+			//if a copy already exists at the destination, move it to the trash
+			if fileManager.fileExists(atPath: destinationPath) {
+				// confirm it's not running
+				if isApplicationRunning(atPath: destinationPath) {
+					failInstall(with: "Another version is already installed at this path. Please close it and try again.") {
+						NSApp.terminate(nil)
+					}
+				} else { //it's not running, so can proceed
+					guard trashItem(atPath: destinationPath) else {
+						failInstall(with: "Could not trash the old Application. Please delete it yourself and try again.") {
+							NSApp.terminate(nil)
+						}
+						return
+					}
+				}
+			}
+			
+			// copy the running app to the destination
+			guard copyBundle(from: bundlePath, to: destinationPath) else {
+				failInstall(with: "Could not copy myself to \(destinationPath)") {
+					NSApp.terminate(nil)
+				}
+				return
+			}
+			
+			// trash the original app
+			if !onDiskImage {
+				trashItem(atPath: bundlePath)
+			}
+			
+			//relaunch
+			relaunch(atPath: destinationPath)
+			
+			moveIsInProgress = false
+			NSApp.terminate(nil)
+			
+		}
+		
+	}
+	
+	func failInstall(with message: String = "") {
+		failInstall(with: message) {
+			//
+		}
+	}
+	
+	func failInstall(with message: String = "", _ cleanup: () -> ()) {
+		moveIsInProgress = false
+		
+		// pop up alert stating that it failed with message, then continue on to the actual app
+		OMGAlrt.showAlert(withTitle: "Can't Move", andMessage: message, withCancelButtonText: nil) { (alert) in
+			
+		}
+		
+		
+		cleanup()
+	}
+	
+	//MARK: - Support functions
+	
+	func relaunch(atPath path: String) {
+		// wait until the original app process terminates
+		let pid = ProcessInfo.processInfo.processIdentifier
+		
+		let quotedDestPath = shellQuotedString(path)
+		let quarantineCommand = "/usr/bin/xattr -d -r com.apple.quarantine \(quotedDestPath)"
+		
+		let script = "(while /bin/kill -0 \(pid) >&/dev/null; do /bin/sleep 0.1; done; \(quarantineCommand); /usr/bin/open \(quotedDestPath) &"
+		
+		SystemUtility.shell(["-c", script], "/bin/sh") //might have to step aside from systemutility to let run in bg?
+	}
+	
+	func shellQuotedString(_ string: String) -> String {
+		let rStr = string.replacingOccurrences(of: "'", with: "'\\''")
+		return "'\(rStr)'"
+	}
+	
+	
+	func copyBundle(from sourcePath: String, to destinationPath: String) -> Bool {
+		do {
+			try fileManager.copyItem(atPath: sourcePath, toPath: destinationPath)
+			return true
+		} catch {
+			NSLog("ERROR: Could not copy '\(sourcePath)' to '\(destinationPath)': \(error)")
+			return false
+		}
+	}
+	
+	@discardableResult func trashItem(atPath path: String) -> Bool {
+		let itemURL = URL(fileURLWithPath: path)
+		do {
+			try fileManager.trashItem(at: itemURL, resultingItemURL: nil)
+		} catch {
+			return false
+		}
+		return true
+	}
+	
+	func isApplicationRunning(atPath bundlePath: String) -> Bool {
+		let bundlePath = (bundlePath as NSString).standardizingPath
+		let runningApps = NSWorkspace.shared.runningApplications
+		
+		for runningApp in runningApps {
+			guard let runningBundlePath = runningApp.bundleURL?.path else { continue }
+			let standardizedPath = (runningBundlePath as NSString).standardizingPath
+			if standardizedPath == bundlePath {
+				return true
+			}
+		}
+		return false
+	}
+	
+	func getPrefferedInstallDirectory() -> String? {
+		let computerApplications = "/Applications/"
+		let userApplications = ("~/Applications/" as NSString).expandingTildeInPath
+		if fileManager.isWritableFile(atPath: computerApplications) {
+			return computerApplications
+		}
+		
+		if !fileManager.fileExists(atPath: userApplications) {
+			do {
+				try fileManager.createDirectory(atPath: userApplications, withIntermediateDirectories: true, attributes: nil)
+			} catch {
+				print("Coudln't write to user application folder (\(userApplications))")
+				return nil
+			}
+		}
+		return userApplications
 	}
 	
 	func isApplicationNested(atPath bundlePath: String) -> Bool {
@@ -82,6 +241,8 @@ public class LetsMove: NSObject {
 		return false
 	}
 	
+	
+	//MARK:- Disk image stuff
 	func isOnDiskImage(with bundlepath: String) -> Bool {
 		let containingPath = (bundlepath as NSString).deletingLastPathComponent
 		
